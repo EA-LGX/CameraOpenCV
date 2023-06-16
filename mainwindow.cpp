@@ -41,30 +41,22 @@ void MainWindow::captureRun(QLabel* label, QPushButton* btn) {
     int apiID = cv::CAP_ANY;
     int flag = 0;
     QString temp = btn->text();
-
     cap.open(deviceID, apiID);
     for (;;) {
-
         cap.read(frame);
         cv::resize(frame, frame, Size(640, 480));
-
         if (temp == "Camera: Local" && flag == 0) {
             //cv::flip(frame, frame, +1);
         }
-
         else {
             usleep(30000);
         }
-
         cv::cvtColor(frame, frame, cv::COLOR_BGR2RGB);
-
         QPixmap pix = QPixmap::fromImage(QImage((unsigned char*)frame.data, frame.cols, frame.rows, QImage::Format_RGB888));
         label->setPixmap(pix);
-
         if (button_video->text() != "Video") {
             video->write(frame);
         }
-
         if (button_photo->text() == " ✓✓✓ ") {
             time_t now = time(0);
             char* dt = ctime(&now);
@@ -77,21 +69,17 @@ jumb:
             cap.open(deviceID, apiID);
             flag = 0;
         }
-
         else if (btn->text() == "Camera: Ip" && flag == 1) {
             //https://konya.sehirkameralari.com/live/5f106b8a0102b/playlist.m3u8?token=
             cap.open(qPrintable(ip_url));
             flag = 0;
         }
-
         if (temp != btn->text()) {
             flag = 1;
             temp = btn->text();
             goto jumb;
         }
-
     }
-
 }
 
 
